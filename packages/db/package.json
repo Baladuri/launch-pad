@@ -1,0 +1,22 @@
+{
+  "name": "@launchpad/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.0",
+    "better-sqlite3": "^11.7.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "drizzle-kit": "^0.30.0",
+    "typescript": "^5.7.0"
+  }
+}
