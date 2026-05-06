@@ -197,7 +197,5 @@ export default function AdminPage() {
 }
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <main className="min-h-screen bg-black px-6">{children}</main>
-  );
+  return <main className="min-h-screen bg-black px-6">{children}</main>;
 }
