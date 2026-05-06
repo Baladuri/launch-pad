@@ -29,7 +29,7 @@ pnpm --filter @launchpad/db exec drizzle-kit migrate   # Apply migrations
 
 ### Non-obvious constraints
 
-- SQLite database directory (`data/`) must exist before the first migration. The DB connection uses an explicit path `data/launchpad.db` — it will fail if `data/` is missing.
+- DB path resolves to repo root `data/launchpad.db` via `resolve(import.meta.dirname, '../../../data/launchpad.db')` in `packages/db/src/index.ts` — three levels up: `src/` → `db/` → `packages/` → root. The `data/` directory must exist before the first migration or it will fail.
 - pnpm `onlyBuiltDependencies` allows `better-sqlite3` and `esbuild` native builds — adding a new native dep needs an entry there.
 - The API uses `@hono/node-server`, not a framework like Express — all middleware is Hono-native.
 
