@@ -3,11 +3,24 @@
     "PostToolUse": [
       {
         "matcher": "^(Edit|Write)$",
-        "command": "npx --yes prettier --write --ignore-path .gitignore \"$CLAUDE_FILE_PATH\" 2>/dev/null"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx --yes prettier --write --ignore-path .gitignore \"$CLAUDE_FILE_PATH\" 2>/dev/null"
+          }
+        ]
       }
     ],
     "Stop": [
-      "pnpm lint --filter '!@launchpad/web' 2>&1 && pnpm build 2>&1 || { echo '^^ Stop hook: lint or build failed — blocking session exit'; exit 1; }"
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm lint --filter '!@launchpad/web' 2>&1 && pnpm build 2>&1 || { echo '^^ Stop hook: lint or build failed — blocking session exit'; exit 1; }"
+          }
+        ]
+      }
     ]
   }
 }
