@@ -48,3 +48,10 @@ pnpm --filter @launchpad/db exec drizzle-kit migrate   # Apply migrations
 - Read SOUL.md at the start of every session
 - Separate planning from execution — always show a plan and wait for approval before writing code
 - After two failed correction attempts, stop and ask for clearer instructions
+
+## Hooks
+
+Two hooks are configured in `.claude/settings.json`:
+
+- **PostToolUse** — Runs `prettier --write` on any file modified by `Edit` or `Write` tools. Keeps formatting consistent without manual `pnpm format:fix` runs.
+- **Stop** — Runs `pnpm lint` (skipping `@launchpad/web` filter) and `pnpm build` on session stop. If either fails, the session exit is blocked with exit code 1, preventing bad state from being committed.
