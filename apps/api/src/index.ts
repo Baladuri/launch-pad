@@ -2,6 +2,7 @@ import { Hono, type Context, type Next } from 'hono';
 import { serve } from '@hono/node-server';
 import { getCookie, setCookie } from 'hono/cookie';
 import { createHmac } from 'node:crypto';
+import { z } from 'zod';
 import { desc } from 'drizzle-orm';
 import { db } from '@launchpad/db';
 import { waitlistEntries } from '@launchpad/db/schema';
@@ -26,7 +27,30 @@ const app = new Hono();
 app.get('/health', (c) => c.json({ status: 'ok' }));
 
 app.post('/api/admin/login', async (c) => {
-  const { password } = await c.req.json<{ password: string }>();
+  let body: unknown;
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: 'bad_request', message: 'Invalid JSON body' }, 400);
+  }
+
+  const loginSchema = z.object({
+    password: z
+      .string()
+      .min(1, 'Password is required')
+      .max(255, 'Password must be 255 characters or less'),
+  });
+
+  const parsed = loginSchema.safeParse(body);
+  if (!parsed.success) {
+    const details = parsed.error.issues.map((issue) => ({
+      field: issue.path.length > 0 ? String(issue.path[0]) : 'body',
+      message: issue.message,
+    }));
+    return c.json({ error: 'validation_error', details }, 422);
+  }
+
+  const { password } = parsed.data;
 
   if (password !== ADMIN_SECRET) {
     return c.json({ error: 'invalid_password', message: 'Invalid password' }, 401);
@@ -37,6 +61,7 @@ app.post('/api/admin/login', async (c) => {
     sameSite: 'Strict',
     path: '/',
     maxAge: 86400,
+    secure: process.env.NODE_ENV === 'production',
   });
 
   return c.json({ success: true });
