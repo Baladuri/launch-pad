@@ -49,6 +49,11 @@ pnpm --filter @launchpad/db exec drizzle-kit migrate   # Apply migrations
 - Separate planning from execution — always show a plan and wait for approval before writing code
 - After two failed correction attempts, stop and ask for clearer instructions
 
+## Known issues / tech debt
+
+- Admin login endpoint (`POST /api/admin/login`) has no rate limiting — brute-force protection needed before production deploy
+- CSV export (`GET /api/admin/waitlist/export`) doesn't escape commas, quotes, or newlines in name/email fields — potential data corruption on export
+
 ## Hooks
 
 Two hooks are configured in `.claude/settings.json`:
