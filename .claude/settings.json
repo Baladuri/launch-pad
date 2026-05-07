@@ -17,10 +17,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pnpm lint --filter '!@launchpad/web' 2>&1 && pnpm build 2>&1 || { echo '^^ Stop hook: lint or build failed — blocking session exit'; exit 1; }"
+            "command": "pnpm --filter @launchpad/api --filter @launchpad/db -r lint 2>&1 && pnpm build 2>&1 || { echo '^^ Stop hook: lint or build failed — blocking session exit'; exit 1; }"
           }
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
   }
 }
