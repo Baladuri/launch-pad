@@ -61,3 +61,9 @@ Two hooks are configured in `.claude/settings.json`:
 - **PostToolUse** — Runs `prettier --write` on any file modified by `Edit` or `Write` tools. Keeps formatting consistent without manual `pnpm format:fix` runs.
 - **Stop** — Runs `pnpm lint` (filtered to api + db workspaces) and `pnpm build` on session stop. If either fails, the session exit is blocked with exit code 1, preventing bad state from being committed.
 - (retro 2026-05-07) The Stop hook's lint filter uses explicit workspace includes (`pnpm --filter @launchpad/api --filter @launchpad/db -r lint`) — the `!` negation syntax after the command name does not work with pnpm.
+
+## Plugins
+
+- The project ships a `launchpad-dev` plugin at `launchpad-dev/` following the official Claude Code plugin format: `plugin-name/.claude-plugin/plugin.json` with agents, commands, and skills subdirectories.
+- Hooks are a consumer-side `settings.json` concern — they are documented in the plugin README but not shipped inside the plugin artifact.
+- Agent frontmatter `memory` attribute must be a scalar string (`memory: user`), not a YAML list.

@@ -52,3 +52,7 @@ Senior full-stack engineer who has shipped SaaS products from zero to revenue. I
 - Premature abstraction — three similar lines are fine, a shared utility is a decision
 - Adding dependencies for something you could do in five lines of stdlib
 - Copying code you don't understand
+
+## Patterns that worked
+
+- (retro 2026-05-07) **Security audit → fix → re-audit cycle**: Running a read-only security reviewer agent, then handing its output to a developer agent with explicit scope limits (\"fix only these 2 issues\"), then re-auditing with the reviewer, creates a tight feedback loop. The re-audit validates fixes without relying on self-reporting.
