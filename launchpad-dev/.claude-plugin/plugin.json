@@ -1,0 +1,8 @@
+{
+  "name": "launchpad-dev",
+  "description": "Development toolkit for the Launchpad waitlist project — agents, commands, and skills for Hono API development, security review, code review, and session retros.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Baladuri"
+  }
+}
