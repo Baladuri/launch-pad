@@ -42,6 +42,8 @@ app.post('/api/admin/login', async (c) => {
   return c.json({ success: true });
 });
 
+// Trusts X-Forwarded-For — safe behind a reverse proxy that strips incoming headers.
+// In production, ensure a trusted proxy (nginx, Cloudflare) sets this header.
 function resolveIp(c: Context): string {
   const forwarded = c.req.header('x-forwarded-for');
   if (forwarded) return forwarded.split(',')[0].trim();
